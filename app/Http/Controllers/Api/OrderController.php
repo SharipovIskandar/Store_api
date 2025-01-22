@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Services\Order\Contracts\iOrderService;
 use App\Traits\Crud;
 use Illuminate\Http\Request;
@@ -12,6 +13,11 @@ class OrderController extends Controller
 {
     use Crud;
 
+    public function index()
+    {
+        $orders = Order::all();
+        return success_response(OrderResource::collection($orders), 'Orders retrieved successfully.');
+    }
     public function store(Request $request, iOrderService $orderService)
     {
         $order = $orderService->cStore($request);

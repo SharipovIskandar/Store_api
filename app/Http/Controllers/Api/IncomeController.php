@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\IncomeResource;
+use App\Models\Income;
 use App\Services\Income\Contracts\iIncomeService;
 use App\Traits\Crud;
 use Illuminate\Http\Request;
@@ -12,6 +13,11 @@ class IncomeController extends Controller
 {
     use Crud;
 
+    public function index()
+    {
+        $incomes = Income::all();
+        return success_response(IncomeResource::collection($incomes), 'Incomes retrieved successfully.');
+    }
     public function store(Request $request, iIncomeService $incomeService)
     {
         $income = $incomeService->cStore($request);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StockResource;
+use App\Models\Stock;
 use App\Services\Stock\Contracts\iStockService;
 use App\Traits\Crud;
 use Illuminate\Http\Request;
@@ -12,6 +13,11 @@ class StockController extends Controller
 {
     use Crud;
 
+    public function index()
+    {
+        $stocks = Stock::all();
+        return success_response(new StockResource($stocks), 'Stocks retrieved successfully.');
+    }
     public function store(Request $request, iStockService $stockService)
     {
         $stock = $stockService->cStore($request);

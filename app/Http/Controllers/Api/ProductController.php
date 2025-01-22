@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Models\Product;
 use App\Services\Product\Contracts\iProductService;
 use App\Http\Resources\ProductResource;
 
@@ -16,6 +17,11 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+    public function index()
+    {
+        $product = Product::all();
+        return success_response(new ProductResource($product), 'Product retrieved successfully.');
+    }
     public function store(ProductRequest $request)
     {
         $product = $this->productService->store($request);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SaleResource;
+use App\Models\Sale;
 use App\Services\Sale\Contracts\iSaleService;
 use App\Traits\Crud;
 use Illuminate\Http\Request;
@@ -12,6 +13,11 @@ class SaleController extends Controller
 {
     use Crud;
 
+    public function index()
+    {
+        $sales = Sale::all();
+        return success_response(SaleResource::collection($sales), 'Sales retrieved successfully.');
+    }
     public function store(Request $request, iSaleService $saleService)
     {
         $sale = $saleService->cStore($request);
